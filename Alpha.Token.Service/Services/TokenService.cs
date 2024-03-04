@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Alpha.Token.Common.ViewModel;
+using Alpha.Common.Token;
 using Alpha.Token.Configuration;
 using Microsoft.IdentityModel.Tokens;
 

@@ -1,13 +1,32 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Alpha.Token.Common;
+using Alpha.Token.Common.ViewModel;
+using Alpha.Token.Configuration;
+using Alpha.Token.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Alpha.Token.Controllers;
 
 [Route("/api/token")]
-public class TokenController : ControllerBase
+public class TokenController(ITokenService tokenService) : ControllerBase
 {
     [HttpPost]
-    public ObjectResult Post()
+    public IActionResult Post([FromBody]List<ClaimValue> claimValues)
     {
-        return Ok("Token Server");
+        if( claimValues == null )
+            return BadRequest();
+
+        var token = tokenService.GenerateToken(claimValues);
+        var tokenString = tokenService.SerializeToken(token);
+
+        var response = new TokenGeneration
+        {
+            Token = tokenString
+        };
+
+        return Ok(response);
     }
 }

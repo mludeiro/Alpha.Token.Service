@@ -9,7 +9,10 @@ namespace Alpha.Token.Services;
 
 public interface ITokenService
 {
+    bool Validate(List<ClaimValue> claimValues);
+
     JwtSecurityToken GenerateToken(List<ClaimValue> claimValues);
+
     string SerializeToken(JwtSecurityToken token);
 }
 
@@ -35,4 +38,9 @@ public class TokenSevice(JwtOptions jwtOptions) : ITokenService
 
     public string SerializeToken(JwtSecurityToken token) => new JwtSecurityTokenHandler().WriteToken(token);
 
+    public bool Validate(List<ClaimValue> claimValues)
+    {
+        return claimValues.Any( claim => claim.Type == ClaimTypes.NameIdentifier )
+            && claimValues.Any( claim => claim.Type == JwtRegisteredClaimNames.Jti );
+    }
 }

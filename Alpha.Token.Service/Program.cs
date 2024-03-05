@@ -1,7 +1,10 @@
 using System.Text;
 using Alpha.Token.Configuration;
+using Alpha.Token.Data;
 using Alpha.Token.Services;
+using Alpha.Utils.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -32,6 +35,9 @@ internal class Program
             });
             o.OperationFilter<SecurityRequirementsOperationFilter>();
         });
+
+        builder.Services.AddDbContext<TokenDataContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")!));
+        builder.Services.AddHostedService<DbMigrationBackgroundService<TokenDataContext>>();
 
         var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>()!;
         builder.Services.AddSingleton(jwtOptions);
@@ -67,7 +73,8 @@ internal class Program
             options.TokenValidationParameters = tokenValidationParameters;
         });
 
-        builder.Services.AddSingleton<ITokenService,TokenSevice>();
+        builder.Services.AddScoped<ITokenService,TokenSevice>();
+        builder.Services.AddScoped<IRefreshTokenService,RefreshTokenService>();
 
         return builder.Build();
     }
@@ -90,3 +97,4 @@ internal class Program
     }
 
 }
+

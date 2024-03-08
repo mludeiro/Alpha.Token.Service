@@ -2,6 +2,7 @@ using System.Text;
 using Alpha.Token.Configuration;
 using Alpha.Token.Data;
 using Alpha.Token.Services;
+using Alpha.Utils.Consul;
 using Alpha.Utils.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -72,6 +73,8 @@ internal class Program
             options.RequireHttpsMetadata = false;
             options.TokenValidationParameters = tokenValidationParameters;
         });
+
+        builder.Services.ConsulServicesConfig(builder.Configuration.GetSection("Consul").Get<ConsulConfig>()!);
 
         builder.Services.AddScoped<ITokenService,TokenSevice>();
         builder.Services.AddScoped<IRefreshTokenService,RefreshTokenService>();

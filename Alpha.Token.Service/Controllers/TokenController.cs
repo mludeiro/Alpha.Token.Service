@@ -1,11 +1,6 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Alpha.Common.Token;
-using Alpha.Token.Configuration;
 using Alpha.Token.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Alpha.Token.Controllers;
 

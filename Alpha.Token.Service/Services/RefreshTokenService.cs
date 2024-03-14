@@ -7,19 +7,18 @@ namespace Alpha.Token.Services;
 
 public interface IRefreshTokenService
 {
-    Task<RefreshToken> GenerateRefreshToken( JwtSecurityToken token );
+    Task<RefreshToken> GenerateRefreshToken( string tokenId, string userId );
 }
 
 public class RefreshTokenService(TokenDataContext dataContext) : IRefreshTokenService
 {
-    public async Task<RefreshToken> GenerateRefreshToken( JwtSecurityToken token )
+    public async Task<RefreshToken> GenerateRefreshToken( string tokenId, string userId )
     {
-        var userId = token.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault()?.Value;
         var refreshToken = new RefreshToken()
         {
-            JwtId = token.Id,
+            JwtId = tokenId,
             IsRevoked = false,
-            UserId = userId!,
+            UserId = userId,
             DateAdded = DateTime.UtcNow,
             DateExpire = DateTime.UtcNow.AddMonths(6),
             Token = Guid.NewGuid().ToString() + "-" + Guid.NewGuid().ToString()

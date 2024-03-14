@@ -1,9 +1,9 @@
 using System.Text;
+using Alpha.Common.Consul;
+using Alpha.Common.Database;
 using Alpha.Token.Configuration;
 using Alpha.Token.Data;
 using Alpha.Token.Services;
-using Alpha.Utils.Consul;
-using Alpha.Utils.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

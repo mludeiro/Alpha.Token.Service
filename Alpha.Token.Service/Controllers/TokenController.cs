@@ -1,23 +1,23 @@
-using Alpha.Common.Token;
+using Alpha.Common.TokenService;
 using Alpha.Token.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Alpha.Token.Controllers;
 
 [Route("/api/token")]
-public class TokenController(ITokenService tokenService, IRefreshTokenService refreshTokenService) : ControllerBase
+public class TokenController(Services.ITokenService tokenService, IRefreshTokenService refreshTokenService) : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody]List<ClaimValue> claimValues)
+    public async Task<IActionResult> Post([FromBody]TokenRequest tokenRequest)
     {
-        if( claimValues == null )
+        if( String.IsNullOrEmpty(tokenRequest.UserName) )
             return BadRequest();
 
-        if( !tokenService.Validate(claimValues) )
+        if( tokenRequest.ClaimValues == null )
             return BadRequest();
 
-        var token = tokenService.GenerateToken(claimValues);
-        var refreshToken = await refreshTokenService.GenerateRefreshToken(token);
+        var token = tokenService.GenerateToken(tokenRequest.UserName, tokenRequest.ClaimValues);
+        var refreshToken = await refreshTokenService.GenerateRefreshToken(token.Id, tokenRequest.UserId);
         var tokenString = tokenService.SerializeToken(token);
 
         var response = new TokenGeneration

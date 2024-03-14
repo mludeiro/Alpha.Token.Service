@@ -46,7 +46,7 @@ internal class Program
         var tokenValidationParameters = new TokenValidationParameters()
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Key!)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key!)),
 
             ValidateIssuer = true,
             ValidIssuer = jwtOptions.Issuer,
@@ -92,6 +92,7 @@ internal class Program
         }
 
         app.UseAuthentication();
+        app.UseAuthorization();
 
         app.MapControllers();
         app.MapHealthChecks("/health");

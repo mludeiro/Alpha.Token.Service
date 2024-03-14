@@ -3,6 +3,7 @@ using Alpha.Common.Consul;
 using Alpha.Common.Database;
 using Alpha.Token.Configuration;
 using Alpha.Token.Data;
+using Alpha.Token.Endpoints;
 using Alpha.Token.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -76,7 +77,7 @@ internal class Program
 
         builder.Services.ConsulServicesConfig(builder.Configuration.GetSection("Consul").Get<ConsulConfig>()!);
 
-        builder.Services.AddScoped<ITokenService,TokenSevice>();
+        builder.Services.AddScoped<ITokenGenerationService,TokenGenerationSevice>();
         builder.Services.AddScoped<IRefreshTokenService,RefreshTokenService>();
 
         return builder.Build();
@@ -94,7 +95,8 @@ internal class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.MapControllers();
+        app.MapAlphaTokenEndpoints();
+//        app.MapControllers();
         app.MapHealthChecks("/health");
 
         app.Run();

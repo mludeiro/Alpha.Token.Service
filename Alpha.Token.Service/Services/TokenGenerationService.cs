@@ -7,14 +7,14 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Alpha.Token.Services;
 
-public interface ITokenService
+public interface ITokenGenerationService
 {
     JwtSecurityToken GenerateToken(string userName, List<ClaimValue> claimValues);
 
     string SerializeToken(JwtSecurityToken token);
 }
 
-public class TokenSevice(JwtOptions jwtOptions) : ITokenService
+public class TokenGenerationSevice(JwtOptions jwtOptions) : ITokenGenerationService
 {
     public JwtSecurityToken GenerateToken(string userName, List<ClaimValue> claimValues)
     {

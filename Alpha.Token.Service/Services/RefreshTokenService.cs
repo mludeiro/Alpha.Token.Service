@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Alpha.Token.Data;
 using Alpha.Token.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Alpha.Token.Services;
 
@@ -23,6 +24,11 @@ public class RefreshTokenService(TokenDataContext dataContext) : IRefreshTokenSe
             DateExpire = DateTime.UtcNow.AddMonths(6),
             Token = Guid.NewGuid().ToString() + "-" + Guid.NewGuid().ToString()
         };
+        
+        // Only one RT per user
+        var oldRt = dataContext.RefreshTokens.Where( rt => rt.UserId == userId);
+        dataContext.RefreshTokens.RemoveRange(oldRt);
+
         await dataContext.RefreshTokens.AddAsync(refreshToken);
         await dataContext.SaveChangesAsync();
 

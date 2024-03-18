@@ -1,8 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Alpha.Common.Security;
 using Alpha.Common.TokenService;
-using Alpha.Token.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Alpha.Token.Services;

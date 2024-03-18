@@ -18,6 +18,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
 
-    <PackageReference Include="Alpha.Common" Version="1.0.23"/>
+    <PackageReference Include="Alpha.Common" Version="1.0.28"/>
   </ItemGroup>
 </Project>

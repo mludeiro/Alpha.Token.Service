@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Alpha.Token.Model;
     
-[Index(nameof(Token))]
+[Index(nameof(Token), IsUnique = true)]
+[Index(nameof(UserId), IsUnique = true)]
 public class RefreshToken
 {
     [Key]

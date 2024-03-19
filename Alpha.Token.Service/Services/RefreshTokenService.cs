@@ -26,7 +26,7 @@ public class RefreshTokenService(TokenDataContext dataContext) : IRefreshTokenSe
         };
         
         // Only one RT per user
-        var oldRt = dataContext.RefreshTokens.Where( rt => rt.UserId == userId);
+        var oldRt = dataContext.RefreshTokens.Where(rt => rt.UserId == userId);
         dataContext.RefreshTokens.RemoveRange(oldRt);
 
         await dataContext.RefreshTokens.AddAsync(refreshToken);

@@ -45,7 +45,7 @@ internal class Program
 
         builder.Services.AddAuthorization();
 
-        builder.Services.ConsulServicesConfig(builder.Configuration.GetSection("Consul").Get<ConsulConfig>()!);
+        // builder.Services.ConsulServicesConfig(builder.Configuration.GetSection("Consul").Get<ConsulConfig>()!);
 
         builder.Services.AddScoped<ITokenGenerationService,TokenGenerationSevice>();
         builder.Services.AddScoped<IRefreshTokenService,RefreshTokenService>();

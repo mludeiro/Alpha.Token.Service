@@ -22,12 +22,13 @@ internal class Program
     private static WebApplication Build(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        var connection = "tokenDBConnection";
+        var connection = "token-db-connection";
 
         using var daprClient = new DaprClientBuilder().Build();
-        builder.Configuration.AddDaprSecretStore("alphasecretstore", daprClient);
+        builder.Configuration.AddDaprSecretStore("token-secret-store", daprClient);
 
         builder.Services.AddHealthChecks();
+        builder.Services.AddControllers().AddDapr();
 
         builder.Services.AddSwaggerGen(o =>
         {
@@ -72,7 +73,7 @@ internal class Program
         app.UseAuthorization();
 
         app.MapAlphaTokenEndpoints();
-//        app.MapControllers();
+        app.MapControllers();
         app.MapHealthChecks("/health");
 
         app.Run();

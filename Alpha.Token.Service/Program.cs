@@ -4,6 +4,8 @@ using Alpha.Common.Security;
 using Alpha.Token.Data;
 using Alpha.Token.Endpoints;
 using Alpha.Token.Services;
+using Dapr.Client;
+using Dapr.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -20,6 +22,10 @@ internal class Program
     private static WebApplication Build(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        var connection = "tokenDBConnection";
+
+        using var daprClient = new DaprClientBuilder().Build();
+        builder.Configuration.AddDaprSecretStore("alphasecretstore", daprClient);
 
         builder.Services.AddHealthChecks();
 
@@ -34,7 +40,7 @@ internal class Program
             o.OperationFilter<SecurityRequirementsOperationFilter>();
         });
 
-        builder.Services.AddDbContext<TokenDataContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")!));
+        builder.Services.AddDbContext<TokenDataContext>(o => o.UseNpgsql(builder.Configuration[connection]!));
         builder.Services.AddHostedService<DbMigrationBackgroundService<TokenDataContext>>();
 
         builder.Services.AddEndpointsApiExplorer();

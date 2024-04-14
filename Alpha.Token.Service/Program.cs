@@ -25,7 +25,12 @@ internal class Program
         var connection = "token-db-connection";
 
         using var daprClient = new DaprClientBuilder().Build();
-        builder.Configuration.AddDaprSecretStore("token-secret-store", daprClient);
+        builder.Configuration.AddDaprSecretStore("alpha-secrets", daprClient);
+        // builder.WebHost.ConfigureAppConfiguration( config => {
+        //     var daprClient = new DaprClientBuilder().Build();
+        //     config.AddDaprSecretStore("token-secret-store", daprClient);
+        // });
+
 
         builder.Services.AddHealthChecks();
         builder.Services.AddControllers().AddDapr();

@@ -1,9 +1,8 @@
-using Alpha.Common.Consul;
-using Alpha.Common.Database;
-using Alpha.Common.Security;
 using Alpha.Token.Data;
 using Alpha.Token.Endpoints;
 using Alpha.Token.Services;
+using Alpha.Tools.Database;
+using Alpha.Tools.Security;
 using Dapr.Client;
 using Dapr.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -26,11 +25,6 @@ internal class Program
 
         using var daprClient = new DaprClientBuilder().Build();
         builder.Configuration.AddDaprSecretStore("alpha-secrets", daprClient);
-        // builder.WebHost.ConfigureAppConfiguration( config => {
-        //     var daprClient = new DaprClientBuilder().Build();
-        //     config.AddDaprSecretStore("token-secret-store", daprClient);
-        // });
-
 
         builder.Services.AddHealthChecks();
         builder.Services.AddControllers().AddDapr();

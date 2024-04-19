@@ -17,9 +17,10 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.1"/>
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.1"/>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2"/>
-    <PackageReference Include="Alpha.Common" Version="1.0.28"/>
     <PackageReference Include="Dapr.Extensions.Configuration" Version="1.13.0"/>
     <PackageReference Include="Dapr.Client" Version="1.13.0"/>
     <PackageReference Include="Dapr.AspNetCore" Version="1.13.0"/>
+    <PackageReference Include="Alpha.Common" Version="1.0.31"/>
+    <PackageReference Include="Alpha.Tools" Version="1.0.3"/>
   </ItemGroup>
 </Project>
